@@ -1,0 +1,61 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Simple Text Field</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        #buttonDiv {
+            padding: 30px;
+            background-color: aquamarine;
+            width: 200px;
+            text-align: center;
+        }
+    </style>
+
+</head>
+
+<body>
+    <h1>Simple Text Field with Mouse Events</h1>
+    <p>name="textfield"</p>
+    <input type="text" name="textfield" value="">
+
+    <p>
+        <table>
+            <tbody id="eventsTableBody"></tbody>
+        </table>
+    </p>
+
+    <script>
+        var textField = document.getElementsByName("textfield")[0];
+
+        var tableBody = document.getElementById("eventsTableBody");
+
+        function registerEvent(eventName) {
+            textField.addEventListener(eventName, function (event) {
+                document.getElementById("check" + eventName).checked = true;
+                if (eventName === "contextmenu") {
+                    event.preventDefault();
+                }
+            });
+
+            var row = document.createElement("tr");
+            row.innerHTML = '<td><code>' + eventName + '</code>:</td><td><input type="checkbox" name="check' +
+                eventName + '" id="check' + eventName + '"></td>';
+            tableBody.appendChild(row);
+        }
+
+        registerEvent("mousemove");
+        registerEvent("mouseover");
+        registerEvent("mouseenter");
+        registerEvent("mouseleave");
+        registerEvent("mousedown");
+        registerEvent("mouseup");
+        registerEvent("click");
+        registerEvent("dblclick");
+        registerEvent("contextmenu");
+    </script>
+</body>
+
+</html>
