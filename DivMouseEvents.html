@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Element wider than viewport - Events</title>
+    <style>
+
+        #events {
+            margin-left: 15px;
+        }
+
+        #eventsDiv {
+            background-color: aquamarine;
+            width: 200px;
+            height: 100px;
+        }
+
+        #outerDiv {
+            width: 3050px;
+        }
+
+        table {
+            border-collapse: collapse;
+            margin-bottom: 10px;
+        }
+        
+        td {
+            padding: 3px;
+        }
+
+    </style>
+</head>
+
+<body>
+    <h1>Div which logs mouse events</h1>
+
+    <pre>&lt;div id="eventsDiv"&gt;&lt;/div&gt;</pre>
+    <table>
+        <tr>
+            <td>window.innerWidth:</td>
+            <td><span id="innerWidth"></span></td>
+        </tr>
+        <tr>
+            <td>window.innerHeight:</td>
+            <td><span id="innerHeight"></span></td>
+        </tr>
+    </table>
+    <table>
+        <tr>
+            <td>
+                <table>
+                    <tr>
+                        <td>div.width:</td>
+                        <td><span id="divWidth"></span></td>
+                    </tr>
+                    <tr>
+                        <td>div.height:</td>
+                        <td><span id="divHeight"></span></td>
+                    </tr>
+                </table>
+            </td>
+            <td width="10px"></td>
+            <td>
+                <table>
+                    <tr>
+                        <td>div.left:</td>
+                        <td><span id="divLeft"></span></td>
+                    </tr>
+                    <tr>
+                        <td>div.top:</td>
+                        <td><span id="divTop"></span></td>
+                    </tr>
+                </table>
+            </td>
+            <td width="10px"></td>
+            <td>
+                <table>
+                    <tr>
+                        <td>div in view width:</td>
+                        <td><span id="divInViewWidth"></span></td>
+                    </tr>
+                    <tr>
+                        <td>div in view height:</td>
+                        <td><span id="divInViewHeight"></span></td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+
+    <div id="events">
+        <table>
+            <tr>
+                <td><label for="divClicked"><code>click</code></label></td>
+                <td><input type="checkbox" name="divClicked" id="divClicked"></td>
+                <td>Source:</td>
+                <td><span id="divClickedEventSource"></span></td>
+                <td>Offset:</td>
+                <td><span id="divClickedOffsetX"></span>,<span id="divClickedOffsetY"></span></td>
+            </tr>
+            <tr>
+                <td><label for="divMouseOver"><code>mouseover</code></label></td>
+                <td><input type="checkbox" name="divMouseOver" id="divMouseOver"></td>
+                <td>Source:</td>
+                <td><span id="divMouseOverEventSource"></span></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><label for="divMouseMove"><code>mousemove</code></label></td>
+                <td><input type="checkbox" name="divMouseMove" id="divMouseMove"></td>
+                <td>Source:</td>
+                <td><span id="divMouseMoveEventSource"></span></td>
+                <td>Offset:</td>
+                <td><span id="divMouseMoveOffsetX"></span>,<span id="divMouseMoveOffsetY"></span></td>
+                <td></td>
+            </tr>
+        </table>
+    </div>
+
+    <div id="eventsDiv">
+    </div>
+
+    <script>
+        var divElem = document.getElementById("eventsDiv");
+        divElem.addEventListener("click", function (event) {
+            document.getElementById("divClicked").checked = true;
+            document.getElementById("divClickedEventSource").innerText = getOriginalTarget(event);
+            document.getElementById("divClickedOffsetX").innerText = event.offsetX;
+            document.getElementById("divClickedOffsetY").innerText = event.offsetY;
+        });
+
+        divElem.addEventListener("mousemove", function (event) {
+            document.getElementById("divMouseMove").checked = true;
+            document.getElementById("divMouseMoveEventSource").innerText = getOriginalTarget(event);
+            document.getElementById("divMouseMoveOffsetX").innerText = event.offsetX;
+            document.getElementById("divMouseMoveOffsetY").innerText = event.offsetY;
+            console.log("mousemove");
+        });
+
+        divElem.addEventListener("mouseover", function (event) {
+            document.getElementById("divMouseOver").checked = true;
+            document.getElementById("divMouseOverEventSource").innerText = getOriginalTarget(event);
+            console.log("mouseover");
+        });
+
+        function getOriginalTarget(event) {
+            if (event.srcElement) {
+                return event.srcElement.id;
+            }
+            return event.originalTarget ? event.originalTarget.id : "";
+        }
+
+        function reset() {
+            var checkBoxes = document.getElementsByTagName("input");
+            for (var i = 0; i < checkBoxes.length; i++) {
+                checkBoxes[i].checked = false;
+            }
+        }
+
+        document.getElementById("divWidth").innerText = divElem.clientWidth;
+        document.getElementById("divHeight").innerText = divElem.clientHeight;
+        var divRect = divElem.getClientRects()[0];
+        document.getElementById("divLeft").innerText = divRect.left;
+        document.getElementById("divTop").innerText = divRect.top;
+
+        function updateDivInViewWidthAndHeight() {
+            var divRect = divElem.getClientRects()[0];
+            var inViewRight = Math.min(window.innerWidth, divRect.right);
+            var inViewLeft = Math.max(0, divRect.left);
+            var inViewTop = Math.max(0, divRect.top);
+            var inViewBottom = Math.min(window.innerHeight, divRect.bottom);
+            var inViewWidth = inViewRight - inViewLeft;
+            var inViewHeight = inViewBottom - inViewTop;
+            document.getElementById("divInViewWidth").innerText = inViewWidth;
+            document.getElementById("divInViewHeight").innerText = inViewHeight;
+        }
+
+        window.addEventListener("scroll", updateDivInViewWidthAndHeight);
+
+        //////////////////////////////////////////////////////////////////////////////////////
+        // Update window.innerWidth and window.innerHeight
+
+        function updateWindowWidthAndHeight() {
+            document.getElementById("innerWidth").innerText = window.innerWidth;
+            document.getElementById("innerHeight").innerText = window.innerHeight;
+        }
+
+        var windowSizeUptodate = true;
+        updateWindowWidthAndHeight();
+        updateDivInViewWidthAndHeight();
+
+        window.addEventListener('resize', function () {
+            windowSizeUptodate = false;
+        });
+
+        setInterval(function () {
+            if (!windowSizeUptodate) {
+                updateWindowWidthAndHeight();
+                updateDivInViewWidthAndHeight();
+                windowSizeUptodate = true;
+            }
+        }, 50);
+    </script>
+</body>
+
+</html>
