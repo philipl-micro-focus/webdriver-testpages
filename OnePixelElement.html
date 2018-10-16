@@ -1,0 +1,53 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+  <meta charset="utf-8" />
+  <title>One Pixel Element</title>
+  <style>
+    #paddingDiv {
+      width: 20px;
+      height: 10px;
+      float: left;
+    }
+
+    #onePixel {
+      width: 1px;
+      height: 1px;
+      background-color: red;
+      float: left;
+    }
+
+    .result {
+      clear: left;
+      padding: 10px;
+    }
+  </style>
+</head>
+
+<body>
+  <h1>One Pixel Element</h1>
+
+  <div id="paddingDiv"></div>
+  <div id="onePixel"></div>
+
+  <div class="result">
+    Clicks: <span id="click-count">0</span>
+  </div>
+
+  <script>
+    var clickCount = 0;
+    var clickCountElem = document.getElementById("click-count");
+
+    function pixelClicked() {
+      clickCount++;
+      clickCountElem.innerText = clickCount
+    }
+
+    document.getElementById("onePixel").addEventListener("click", pixelClicked);
+  </script>
+
+</body>
+
+</html>
