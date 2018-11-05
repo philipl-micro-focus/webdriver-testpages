@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Various special keys</title>
+    <style>
+        .keys-container {
+            overflow: auto;
+            width: 100%;
+        }
+
+        .keys {
+            float: left;
+            width: 20%;
+            padding: 5px;
+        }
+
+        .keys-title {
+            font-weight: bold;
+            margin-top: 5px;
+            margin-bottom: 5px;
+        }
+
+        .counter-panel {
+            font-weight: bold;
+            padding-left: 5px;
+        }
+
+        input {
+            top: 2px;
+            position: relative;
+            margin-right: 5px;
+        }
+
+        hr {
+            border: 0;
+            height: 2px;
+            background-color: lightgray;
+            margin-top: 15px;
+            margin-bottom: 15px;
+        }
+
+    </style>
+</head>
+
+<body>
+    <h1>Various special keys</h1>
+    Type Cursor keys and keys from numpad (with / without numlock)
+    <hr>
+
+    <p class="counter-panel">Checked: <span id="counter">0</span></p>
+
+    <div class="keys-container">
+        <div class="keys">
+            <p class="keys-title">NUMPAD - Numbers</p>
+            <table id="keys-numpad-numbers">
+                <tr>
+                    <td><input type="checkbox" id="n0" /></td>
+                </tr>
+                <tr>
+                    <td><input type="checkbox" id="n1" /></td>
+                </tr>
+                <tr>
+                    <td><input type="checkbox" id="n2" /></td>
+                </tr>
+                <tr>
+                    <td><input type="checkbox" id="n3" /></td>
+                </tr>
+                <tr>
+                    <td><input type="checkbox" id="n4" /></td>
+                </tr>
+                <tr>
+                    <td><input type="checkbox" id="n5" /></td>
+                </tr>
+                <tr>
+                    <td><input type="checkbox" id="n6" /></td>
+                </tr>
+                <tr>
+                    <td><input type="checkbox" id="n7" /></td>
+                </tr>
+                <tr>
+                    <td><input type="checkbox" id="n8" /></td>
+                </tr>
+                <tr>
+                    <td><input type="checkbox" id="n9" /></td>
+                </tr>
+            </table>
+        </div>
+        <div class="keys">
+            <p class="keys-title">NUMPAD - Cursors</p>
+            <table>
+                <tr>
+                    <td><input type="checkbox" id="nu" /></td>
+                </tr>
+                <tr>
+                    <td><input type="checkbox" id="nd" /></td>
+                </tr>
+                <tr>
+                    <td><input type="checkbox" id="nl" /></td>
+                </tr>
+                <tr>
+                    <td><input type="checkbox" id="nr" /></td>
+                </tr>
+                <tr>
+                    <td><input type="checkbox" id="nins" /></td>
+                </tr>
+                <tr>
+                    <td><input type="checkbox" id="ndel" /></td>
+                </tr>
+                <tr>
+                    <td><input type="checkbox" id="nh" /></td>
+                </tr>
+                <tr>
+                    <td><input type="checkbox" id="ne" /></td>
+                </tr>
+                <tr>
+                    <td><input type="checkbox" id="npu" /></td>
+                </tr>
+                <tr>
+                    <td><input type="checkbox" id="npd" /></td>
+                </tr>
+            </table>
+        </div>
+        <div class="keys">
+            <p class="keys-title">Cursor / Home-key - Blocks</p>
+            <table>
+                <tr>
+                    <td><input type="checkbox" id="u" /></td>
+                </tr>
+                <tr>
+                    <td><input type="checkbox" id="d" /></td>
+                </tr>
+                <tr>
+                    <td><input type="checkbox" id="l" /></td>
+                </tr>
+                <tr>
+                    <td><input type="checkbox" id="r" /></td>
+                </tr>
+                <tr>
+                    <td><input type="checkbox" id="ins" /></td>
+                </tr>
+                <tr>
+                    <td><input type="checkbox" id="del" /></td>
+                </tr>
+                <tr>
+                    <td><input type="checkbox" id="h" /></td>
+                </tr>
+                <tr>
+                    <td><input type="checkbox" id="e" /></td>
+                </tr>
+                <tr>
+                    <td><input type="checkbox" id="pu" /></td>
+                </tr>
+                <tr>
+                    <td><input type="checkbox" id="pd" /></td>
+                </tr>
+            </table>
+        </div>
+        <div class="keys">
+            <p class="keys-title">Other extended</p>
+            <table>
+                <tr>
+                    <td><input type="checkbox" id="enter" /></td>
+                </tr>
+                <tr>
+                    <td><input type="checkbox" id="ex_enter" /></td>
+                </tr>
+                <tr>
+                    <td><input type="checkbox" id="left_shift" /></td>
+                </tr>
+                <tr>
+                    <td><input type="checkbox" id="right_shift" /></td>
+                </tr>
+                <tr>
+                    <td><input type="checkbox" id="left_ctrl" /></td>
+                </tr>
+                <tr>
+                    <td><input type="checkbox" id="right_ctrl" /></td>
+                </tr>
+                <tr>
+                    <td><input type="checkbox" id="left_alt" /></td>
+                </tr>
+                <tr>
+                    <td><input type="checkbox" id="right_alt" /></td>
+                </tr>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        function updateCounter() {
+            var checkBoxes = document.getElementsByTagName("input");
+            var counter = 0;
+            for (cb = 0; cb < checkBoxes.length; ++cb) {
+                if (checkBoxes[cb].checked) {
+                    counter++;
+                }
+            }
+            document.getElementById("counter").innerText = counter;
+        }
+
+        function registerKey(keyCode, location, id) {
+            var field = document.getElementById(id);
+            if (field) {
+                field.parentElement.appendChild(createLabel(id));
+                window.addEventListener('keydown', function (ev) {
+                    if (ev.keyCode == keyCode && ev.location == location) {
+                        field.checked = true;
+                    }
+                    updateCounter();
+                });
+                field.onchange = updateCounter;
+            }
+        }
+
+        function createLabel(id) {
+            var label = document.createElement("label");
+            label.innerText = id;
+            label.setAttribute("for", id);
+            return label;
+        }
+
+        // numpad numbers
+        registerKey(96, 3, "n0");
+        registerKey(97, 3, "n1");
+        registerKey(98, 3, "n2");
+        registerKey(99, 3, "n3");
+        registerKey(100, 3, "n4");
+        registerKey(101, 3, "n5");
+        registerKey(102, 3, "n6");
+        registerKey(103, 3, "n7");
+        registerKey(104, 3, "n8");
+        registerKey(105, 3, "n9");
+
+        // numpad cursors
+        registerKey(38, 3, "nu");
+        registerKey(40, 3, "nd");
+        registerKey(37, 3, "nl");
+        registerKey(39, 3, "nr");
+
+        registerKey(45, 3, "nins");
+        registerKey(46, 3, "ndel");
+        registerKey(36, 3, "nh");
+        registerKey(35, 3, "ne");
+        registerKey(33, 3, "npu");
+        registerKey(34, 3, "npd");
+
+        // cursors
+        registerKey(38, 0, "u");
+        registerKey(40, 0, "d");
+        registerKey(37, 0, "l");
+        registerKey(39, 0, "r");
+
+        registerKey(45, 0, "ins");
+        registerKey(46, 0, "del");
+        registerKey(36, 0, "h");
+        registerKey(35, 0, "e");
+        registerKey(33, 0, "pu");
+        registerKey(34, 0, "pd");
+
+        // other extended
+        registerKey(13, 0, "enter");
+        registerKey(13, 3, "ex_enter");
+        registerKey(16, 1, "left_shift");
+        registerKey(16, 2, "right_shift");
+        registerKey(18, 1, "left_alt");
+        registerKey(18, 2, "right_alt");
+        registerKey(17, 1, "left_ctrl");
+        registerKey(17, 2, "right_ctrl");
+    </script>
+</body>
+
+</html>
