@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>jQuery Text Field Input Mask</title>
+    <style>
+        body {
+            margin: 15px;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        label {
+            display: inline-block;
+            width: 150px;
+            text-align: right;
+            margin-right: 10px;
+        }
+
+        form {
+            margin-top: 30px;
+        }
+    </style>
+</head>
+<body>
+    <h1>jQuery Text Field Input Mask</h1>
+    <p>Uses the jQuery plugin <a href="https://github.com/RobinHerbots/Inputmask" target="_blank">https://github.com/RobinHerbots/Inputmask</a></p>
+
+    <form>
+        <p>
+            <label id="cardnumLbl" for="card_num">Card Number</label>
+            <input type="text" id="card_num" name="card_num" required placeholder="Enter your 16 digit number" />
+        </p>
+
+        <p>
+            <label id="cvvLbl" for="cvv">CVV</label>
+            <input type="text" id="cvv" name="cvv" required placeholder="Enter 3 digit security code">	
+        </p>
+
+        <p>
+            <label id="phoneLbl" for="phone">Phone</label>
+            <input type="text" id="phone" name="phone" required placeholder="Enter a valid Phone number">   
+        </p>
+
+        <p>
+            <label id="expLbl" for="exp_date">Expiration Date</label>
+            <input type="text" id="exp_date" name="exp_date" required placeholder="Enter cards expiration date">
+        </p>
+    </form>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.inputmask/3.3.4/jquery.inputmask.bundle.js"></script>
+    <script>
+        $(document).ready(function(){
+            $("#phone").inputmask("+99-9999999999");
+            $("#card_num").inputmask("9999-9999-9999-9999");
+            $("#exp_date").inputmask("mm/yyyy");
+            $("#cvv").inputmask("999");
+        });
+    </script>
+
+</body>
+</html>
